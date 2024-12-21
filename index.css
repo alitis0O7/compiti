@@ -1,0 +1,68 @@
+body {
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+}
+button {
+    height: auto;
+
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-width: 6px;
+    display: block;
+    border-style: solid;
+    border-radius: 5px;
+    border-width: 3px;
+    border-color: #000000;
+    background-color: #8000ff;
+    color: rgb(255, 255, 255);
+    padding: 5px;
+    transition: all 0.3s;
+}
+button:hover{
+    background-color: #5c00a7;
+}
+.dropdown {
+    margin: 10px 0;
+    transition: all 0.3s;
+}
+.dropdown:active{
+    transform: scale(0.9);
+}
+.dropdown input {
+    display: none;
+    transition: all 0.3s;
+}
+.dropdown label {
+    display: block;
+    background-color: #8000ff;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s;
+    border-style: solid;
+    border-radius: 5px;
+    border-width: 3px;
+    border-color: #000000;
+}
+.dropdown label:hover {
+    background-color: #5c00a7;
+}
+.dropdown-content {
+    display: none;
+    padding: 10px 0;
+    color: #333;
+    transition: all 0.3s;
+}
+.dropdown input:checked + label + .dropdown-content {
+    display: block;
+    transition: all 0.3s;
+}

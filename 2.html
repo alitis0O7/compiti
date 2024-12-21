@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda Compiti</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        header {
+            background-color: #6a5acd;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        main {
+            padding: 2rem;
+        }
+        .task {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        select, input[type="text"], textarea {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #6a5acd;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #5b4cb2;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Agenda Compiti</h1>
+    </header>
+    <main>
+        <form id="taskForm">
+            <label for="materia">Materia:</label>
+            <select id="materia" required>
+                <option value="">-- Seleziona una materia --</option>
+                <option value="matematica">Matematica</option>
+                <option value="italiano">Italiano</option>
+                <option value="storia">Storia</option>
+                <option value="scienze">Scienze</option>
+                <option value="inglese">Inglese</option>
+            </select>
+
+            <label for="descrizione">Descrizione del compito:</label>
+            <textarea id="descrizione" rows="4" required></textarea>
+
+            <label for="scadenza">Data di consegna:</label>
+            <input type="date" id="scadenza" required>
+
+            <button type="submit">Aggiungi Compito</button>
+        </form>
+
+        <section id="taskList">
+            <h2>Compiti Assegnati</h2>
+        </section>
+    </main>
+
+    <script>
+        document.getElementById('taskForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const materia = document.getElementById('materia').value;
+            const descrizione = document.getElementById('descrizione').value;
+            const scadenza = document.getElementById('scadenza').value;
+
+            const taskList = document.getElementById('taskList');
+
+            const task = document.createElement('div');
+            task.classList.add('task');
+            task.innerHTML = `
+                <h3>${materia}</h3>
+                <p><strong>Descrizione:</strong> ${descrizione}</p>
+                <p><strong>Scadenza:</strong> ${scadenza}</p>
+                <button onclick="this.parentElement.remove()">Rimuovi</button>
+            `;
+
+            taskList.appendChild(task);
+
+            document.getElementById('taskForm').reset();
+        });
+    </script>
+</body>
+</html>

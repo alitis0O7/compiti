@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contenuto dinamico basato sul giorno</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        .giorno {
+            display: none; /* Nascondi tutti gli elementi per impostazione predefinita */
+            background-color: rgba(178, 0, 255, 0);
+        }
+        .visibile {
+            display: block; /* Mostra solo gli elementi corrispondenti */
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Benvenuto!</h1>
+
+    <!-- Elementi per ogni giorno -->
+    <p class="giorno" data-giorno="0">Rilassati, è Domenica!</p>
+    <p class="giorno" data-giorno="1">Inizia la settimana con energia!</p>
+    <p class="giorno" data-giorno="2">Martedì produttivo!</p>
+    <p class="giorno" data-giorno="3">Siamo a metà settimana!</p>
+    <p class="giorno" data-giorno="4">Giovedì, quasi al weekend!</p>
+    <p class="giorno" data-giorno="5">È Venerdì, prepara i festeggiamenti!</p>
+    <p class="giorno" data-giorno="6">Buon Sabato, goditi il tuo tempo libero!</p>
+
+    <script>
+        // Funzione per aggiornare gli elementi in base al giorno della settimana
+        function aggiornaElementi() {
+            const giornoCorrente = new Date().getDay(); // Ottieni il giorno corrente (0-6)
+
+            // Seleziona tutti gli elementi con la classe "giorno"
+            const elementi = document.querySelectorAll('.giorno');
+
+            // Itera sugli elementi e aggiorna la visibilità
+            elementi.forEach(elemento => {
+                const giorno = parseInt(elemento.getAttribute('data-giorno'), 10); // Ottieni il giorno dall'attributo
+                if (giorno === giornoCorrente) {
+                    elemento.classList.add('visibile'); // Mostra l'elemento
+                } else {
+                    elemento.classList.remove('visibile'); // Nascondi l'elemento
+                }
+            });
+        }
+
+        // Esegui la funzione al caricamento della pagina
+        aggiornaElementi();
+    </script>
+</body>
+</html>
