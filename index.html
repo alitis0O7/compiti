@@ -4,213 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agenda Compiti</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-        }
-        header {
-            background-color: #6a5acd;
-            color: white;
-            padding: 1rem;
-            text-align: center;
-        }
-        main {
-            padding: 2rem;
-        }
-        .day {
-            margin-bottom: 2rem;
-        }
-        .day h2 {
-            background-color: #6a5acd;
-            color: white;
-            padding: 0.5rem;
-            border-radius: 5px;
-        }
-        .task {
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: bold;
-        }
-        select, input[type="text"], textarea {
-            width: 100%;
-            padding: 0.5rem;
-            margin-bottom: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-            background-color: #6a5acd;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 0.5rem 1rem;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #5b4cb2;
-        }
-    </style>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <header>
-        <h1>Agenda Compiti</h1>
-    </header>
-    <main>
+    <h1>Agenda Compiti</h1>
+
+    <!-- Login Form -->
+    <div id="loginContainer">
+        <h2>Login</h2>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button onclick="loginUser()">Login</button>
+        <p>Non hai un account? <a href="#" onclick="showSignup()">Registrati</a></p>
+    </div>
+
+    <!-- Signup Form -->
+    <div id="signupContainer" style="display:none;">
+        <h2>Registrazione</h2>
+        <input type="email" id="signupEmail" placeholder="Email" required>
+        <input type="password" id="signupPassword" placeholder="Password" required>
+        <button onclick="signupUser()">Registrati</button>
+        <p>Hai già un account? <a href="#" onclick="showLogin()">Login</a></p>
+    </div>
+
+    <!-- Compiti Form -->
+    <div id="taskFormContainer" style="display:none;">
+        <h2>Aggiungi un compito</h2>
         <form id="taskForm">
-            <label for="giorno">Giorno della settimana:</label>
-            <select id="giorno" required>
-                <option value="">-- Seleziona un giorno --</option>
-                <option value="lunedi">Lunedì</option>
-                <option value="martedi">Martedì</option>
-                <option value="mercoledi">Mercoledì</option>
-                <option value="giovedi">Giovedì</option>
-                <option value="venerdi">Venerdì</option>
-                <option value="sabato">Sabato</option>
-                <option value="domenica">Domenica</option>
-            </select>
+            <label for="taskName">Nome del compito:</label>
+            <input type="text" id="taskName" required><br>
 
-            <label for="materia">Materia:</label>
-            <select id="materia" required>
-                <option value="">-- Seleziona una materia --</option>
-                <option value="Geometria">Geometria</option>
-                <option value="Algebra">Algebra</option>
-                <option value="Francese">Francese</option>
-                <option value="Italiano">Italiano</option>
-                <option value="Storia">Storia</option>
-                <option value="Scienze">Scienze</option>
-                <option value="Inglese">Inglese</option>
-                <option value="Geografia">Geografia</option>
-                <option value="Educazione civica">Educazione civica</option>
-                <option value="Educazione fisica">Educazione fisica</option>
-                <option value="Tecnologia">Tecnologia</option>
-                <option value="Musica">Musica</option>
-                <option value="Arte">Arte</option>
-            </select>
+            <label for="dueDate">Data di scadenza:</label>
+            <input type="date" id="dueDate" required><br>
 
-            <label for="descrizione">Descrizione del compito:</label>
-            <textarea id="descrizione" rows="4" required></textarea>
+            <label for="description">Descrizione:</label>
+            <textarea id="description" required></textarea><br>
 
-            <label for="scadenza">Data di consegna:</label>
-            <input type="date" id="scadenza" required>
-
-            <button type="submit">Aggiungi Compito</button>
+            <button type="submit">Aggiungi compito</button>
         </form>
+    </div>
 
-        <section id="taskList">
-            <div class="day" id="lunedi">
-                <h2>Lunedì</h2>
-            </div>
-            <div class="day" id="martedi">
-                <h2>Martedì</h2>
-            </div>
-            <div class="day" id="mercoledi">
-                <h2>Mercoledì</h2>
-            </div>
-            <div class="day" id="giovedi">
-                <h2>Giovedì</h2>
-            </div>
-            <div class="day" id="venerdi">
-                <h2>Venerdì</h2>
-            </div>
-            <div class="day" id="sabato">
-                <h2>Sabato</h2>
-            </div>
-            <div class="day" id="domenica">
-                <h2>Domenica</h2>
-            </div>
-        </section>
-    </main>
+    <!-- Lista dei compiti -->
+    <div id="tasksContainer">
+        <h2>I tuoi compiti</h2>
+        <div id="tasksList"></div>
+    </div>
 
-    <script>
-        function getDayFromDate(dateString) {
-            const days = ["domenica", "lunedi", "martedi", "mercoledi", "giovedi", "venerdi", "sabato"];
-            const date = new Date(dateString);
-            return days[date.getDay()];
-        }
+    <button onclick="logoutUser()">Logout</button>
 
-        document.getElementById('scadenza').addEventListener('change', function() {
-            const day = getDayFromDate(this.value);
-            document.getElementById('giorno').value = day;
-        });
-
-        document.getElementById('giorno').addEventListener('change', function() {
-            const selectedDay = this.value;
-            const currentDate = new Date();
-            const days = {"domenica": 0, "lunedi": 1, "martedi": 2, "mercoledi": 3, "giovedi": 4, "venerdi": 5, "sabato": 6};
-            const today = currentDate.getDay();
-            const diff = (days[selectedDay] - today + 7) % 7;
-            const targetDate = new Date(currentDate.setDate(currentDate.getDate() + diff));
-            document.getElementById('scadenza').value = targetDate.toISOString().split('T')[0];
-        });
-
-        document.getElementById('taskForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const giorno = document.getElementById('giorno').value;
-            const materia = document.getElementById('materia').value;
-            const descrizione = document.getElementById('descrizione').value;
-            const scadenza = document.getElementById('scadenza').value;
-
-            const taskList = document.getElementById(giorno);
-
-            const task = document.createElement('div');
-            task.classList.add('task');
-            task.innerHTML = `
-                <h3>${materia}</h3>
-                <p><strong>Descrizione:</strong> ${descrizione}</p>
-                <p><strong>Scadenza:</strong> ${scadenza}</p>
-                <button onclick="this.parentElement.remove()">Rimuovi</button>
-            `;
-
-            taskList.appendChild(task);
-
-            document.getElementById('taskForm').reset();
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
-
-
-
-
-
-<!-- Includi la libreria Firebase -->
-<script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-analytics.js";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-  
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-    const firebaseConfig = {
-      apiKey: "AIzaSyCCyPGScMIaMRp7_DokC00WfiEIE0RUaUs",
-      authDomain: "compiti-d47d0.firebaseapp.com",
-      projectId: "compiti-d47d0",
-      storageBucket: "compiti-d47d0.firebasestorage.app",
-      messagingSenderId: "1013299084333",
-      appId: "1:1013299084333:web:897ecbaa39bb8b4f474ca4",
-      measurementId: "G-658EVZDHQJ"
-    };
-  
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-  </script>
-
-
-
-
-
 </html>
