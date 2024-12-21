@@ -179,4 +179,38 @@
         });
     </script>
 </body>
+
+
+
+
+
+<!-- Includi la libreria Firebase -->
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyCCyPGScMIaMRp7_DokC00WfiEIE0RUaUs",
+      authDomain: "compiti-d47d0.firebaseapp.com",
+      projectId: "compiti-d47d0",
+      storageBucket: "compiti-d47d0.firebasestorage.app",
+      messagingSenderId: "1013299084333",
+      appId: "1:1013299084333:web:897ecbaa39bb8b4f474ca4",
+      measurementId: "G-658EVZDHQJ"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+
+
+
+
 </html>
